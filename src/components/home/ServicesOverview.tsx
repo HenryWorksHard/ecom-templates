@@ -9,7 +9,7 @@ import StaggerChildren, {
 
 export default function ServicesOverview() {
   return (
-    <section className="py-24 lg:py-32 bg-neutral-900">
+    <section className="py-24 lg:py-32 bg-neutral-950">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <FadeIn>
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -27,40 +27,61 @@ export default function ServicesOverview() {
         </FadeIn>
 
         <StaggerChildren className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((service) => (
+          {services.map((service, index) => (
             <StaggerItem key={service.id}>
-              <div className="group p-8 rounded-2xl border border-neutral-800 bg-neutral-950 hover:border-neutral-700 transition-all duration-300">
-                <div className="flex items-start justify-between mb-6">
-                  <div>
-                    <h3 className="text-xl font-semibold text-neutral-50 group-hover:text-accent transition-colors duration-300">
-                      {service.title}
-                    </h3>
-                    <p className="mt-2 text-neutral-400 leading-relaxed">
-                      {service.description}
-                    </p>
-                  </div>
-                </div>
+              <div 
+                className="group relative p-8 rounded-2xl bg-neutral-900/50 transition-all duration-300"
+                style={{
+                  border: '1px solid transparent',
+                  backgroundImage: `linear-gradient(#0a0a0f, #0a0a0f), linear-gradient(135deg, rgba(6,182,212,0.4) 0%, transparent 50%, transparent 50%, rgba(6,182,212,0.4) 100%)`,
+                  backgroundOrigin: 'border-box',
+                  backgroundClip: 'padding-box, border-box',
+                }}
+              >
+                {/* Glow effect on corners */}
+                <div className="absolute top-0 left-0 w-32 h-32 bg-accent/10 blur-3xl rounded-full pointer-events-none" />
+                <div className="absolute bottom-0 right-0 w-32 h-32 bg-accent/10 blur-3xl rounded-full pointer-events-none" />
+                
+                <div className="relative">
+                  {/* Number label */}
+                  <span className="text-accent text-sm font-medium tracking-wider">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  
+                  {/* Title */}
+                  <h3 className="mt-3 text-xl sm:text-2xl font-bold text-neutral-50 uppercase tracking-wide">
+                    {service.title}
+                  </h3>
+                  
+                  {/* Description */}
+                  <p className="mt-4 text-neutral-400 leading-relaxed">
+                    {service.description}
+                  </p>
 
-                {service.stat && (
-                  <div className="pt-6 border-t border-neutral-800">
-                    <p className="text-3xl font-bold gradient-text">
-                      {service.stat}
-                    </p>
-                    <p className="text-sm text-neutral-500 mt-1">
-                      {service.statLabel}
-                    </p>
-                  </div>
-                )}
+                  {/* Stat box */}
+                  {service.stat && (
+                    <div className="mt-6 p-5 rounded-xl bg-neutral-950 border border-neutral-800">
+                      <p className="text-4xl font-bold text-accent">
+                        {service.stat}
+                      </p>
+                      <p className="text-sm text-neutral-400 mt-1">
+                        {service.statLabel}
+                      </p>
+                    </div>
+                  )}
 
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {service.features.slice(0, 3).map((feature) => (
-                    <span
-                      key={feature}
-                      className="text-xs px-3 py-1 rounded-full bg-neutral-800 text-neutral-300"
-                    >
-                      {feature}
-                    </span>
-                  ))}
+                  {/* Features list */}
+                  <ul className="mt-6 space-y-3">
+                    {service.features.slice(0, 3).map((feature) => (
+                      <li 
+                        key={feature} 
+                        className="flex items-center gap-3 text-neutral-300"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </StaggerItem>
